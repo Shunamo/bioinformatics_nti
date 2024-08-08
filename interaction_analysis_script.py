@@ -3,6 +3,7 @@ import subprocess
 import time
 import os
 from cluster_number_extract import clusters_dict
+import sys
 
 Nb_list = [16,49,51]
 
@@ -15,8 +16,9 @@ domain_dict = {
     49 : domain_3,
     51 : domain_1
 }
+#정규형식의 경우에 contact을 조사하는 함수
 def sequential_logic():
-    for Nb in Nb_list:
+    for Nb in Nb_list:  
         Nb_cluster = clusters_dict[Nb]
         domain = domain_dict[Nb]
         for cluster in Nb_cluster:
@@ -42,10 +44,12 @@ def sequential_logic():
         
                 time.sleep(5)
 
+#사용예시 > python interaction_analysis_script.py 폴더이름 이렇게 실행하면 폴더내의 모든 파일의 contact을 조사한다.
 def random_files_logic(dir):
     directory = f"./{dir}"
     files = os.listdir(directory)
     for file in files:
+        if not file.endswith(".maegz") : continue
         domain = domain_dict[int(file[7:9])]#file명에서 Nb 번호를 추출하여 domain영역 설정
         structure_file_name =f"{directory}/{file}"
         query_asl_1 = 'chain. B, res. 100-114'
@@ -67,3 +71,9 @@ def random_files_logic(dir):
             print(f"Error: {e.stderr.decode()}")  
 
         time.sleep(5)
+
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        sequential_logic()
+    elif len(sys.argv) == 2:
+        random_files_logic(sys.argv[1])
