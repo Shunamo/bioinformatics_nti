@@ -29,7 +29,7 @@ def haddock_docker_docking(prepared_antibody_pdb_file, prepared_antigen_pdb_file
 
     script =f"""#!/bin/bash
 mkdir -p {container_output_dir}
-haddock3-restraints active_passive_to_ambig ./antigen.act-pass ./antibody.act-pass > ambig.tbl
+haddock3-restraints active_passive_to_ambig ./antibody.act-pass ./antigen.act-pass > ambig.tbl
 haddock3 {project_title}.cfg
 """
     script_filename = f"./host_to_docker_script.sh"
