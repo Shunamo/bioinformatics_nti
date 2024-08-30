@@ -10,8 +10,7 @@ from cfg_generator import cfg_generator
 from tbl_generator import tbl_generator
 from haddock_docker_docking import haddock_docker_docking
 from move_to_desktop import move_to_desktop
-#project_title 은 sw_haddock_HER2_act_Nb~~_cdr3_act
-#실행하기전에 export $SCHRODINGER하기
+
 
 def find_file_in_directory(directory, filename):
     # 모든 파일 iterate
@@ -20,9 +19,8 @@ def find_file_in_directory(directory, filename):
             return os.path.join(root, filename)
     return None
 
-
 def program(antibody_active_residues,antibody_passive_residues,antigen_active_residues,antigen_passive_residues, prepared_antibody_pdb_file, prepared_antigen_pdb_file):
-
+    #여기에 rename_chain 자동화 코드가 들어가면 좋을듯
     try: 
         cfg_generator(project_title, prepared_antibody_pdb_file, prepared_antigen_pdb_file)
         print("cfg generator operated")
@@ -76,10 +74,10 @@ def program(antibody_active_residues,antibody_passive_residues,antigen_active_re
     except Exception as e:
         print(f"Error running prime_mmgbsa: {e}")
 
-    try:
-        interaction_analysis('./', f"{project_title}_emref_{i}_prep-out.maegz")#{project_title}_emref_{i}_prep-out_contact.csv파일 생성됨
-    except Exception as e:
-        print(f"Error running interaction_analysis : {e}")
+#    try:
+#        interaction_analysis('./', f"{project_title}_emref_{i}_prep-out.maegz")#{project_title}_emref_{i}_prep-out_contact.csv파일 생성됨
+#    except Exception as e:
+#        print(f"Error running interaction_analysis : {e}")
 
     try:
         move_to_desktop(project_title)
