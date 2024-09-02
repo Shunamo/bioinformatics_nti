@@ -1,4 +1,8 @@
-def cfg_generator(project_title, prepared_antibody_pdb_file, prepared_antigen_pdb_file):
+'''
+haddock docking에 필요한 .cfg파일을 만들어내는 프로그램
+'''
+
+def cfg_generator(project_title, prepared_antibody_pdb_file, prepared_antigen_pdb_file,sampling):
     content=f"""run_dir = "{project_title}"
 mode = "local"
 ncores = 40
@@ -13,7 +17,7 @@ molecules = [
 [rigidbody]
 tolerance = 20
 ambig_fname = "ambig.tbl"
-sampling = 100
+sampling = {sampling}
 
 [flexref]
 tolerance = 20

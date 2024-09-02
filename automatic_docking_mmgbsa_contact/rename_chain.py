@@ -1,3 +1,12 @@
+'''
+chain 의 ID를 변경시키는 프로그램
+(input_file name과 output_file name을 같게 설정하면 덮어씌움)
+
+template> python3 rename_chain.py input_file output_file old_chain_id new_chain_id
+예시> python3 rename_chain.py HER2_prepared.pdb HER2_prepared.pdb A B
+
+'''
+
 from Bio import PDB
 import sys
 def rename_chain(input_file, output_file, old_chain_id, new_chain_id):
