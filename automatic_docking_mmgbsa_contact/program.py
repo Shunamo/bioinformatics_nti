@@ -21,7 +21,7 @@ from interaction_analysis import interaction_analysis
 from cfg_generator import cfg_generator
 from tbl_generator import tbl_generator
 from haddock_docker_docking import haddock_docker_docking
-
+import glob
 #현재 directory에 파일이 있는지 찾는 함수
 def find_file_in_directory(directory, filename):
     for root, dirs, files in os.walk(directory):
@@ -58,7 +58,11 @@ def program(antibody_active_residues,antibody_passive_residues,antigen_active_re
         for i in range(1,sampling + 1):
             if find_file_in_directory('./',f"{project_title}_emref_{i}_prep-out.maegz"):
                 continue
-            protein_preparation(project_title,f'./{project_title}/03_emref/',f"emref_{i}.pdb" ,40)
+            pattern = os.path.join("./", project_title, '*_emref')
+            matching_dirs = glob.glob(pattern)
+            if matching_dirs:
+                full_file_path = matching_dirs[0]
+            protein_preparation(project_title,full_file_path,f"emref_{i}.pdb" ,40)
             time.sleep(18)        
     except Exception as e:
         print(f"Error running protein_preparation : {e}")

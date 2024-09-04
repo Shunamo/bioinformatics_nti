@@ -6,8 +6,14 @@ import os
 import subprocess
 import sys
 import time
+import glob
+
 def protein_preparation(project_title, file_path, file_name,processor_to_use):
-    full_file_path = os.path.join(file_path, file_name)
+    pattern = os.path.join(file_path, project_title, '*_emref')
+    matching_dirs = glob.glob(pattern)
+    if matching_dirs:
+        full_file_path = matching_dirs[0]
+    
 
     script =f"""#!/bin/bash
 "$SCHRODINGER/utilities/prepwizard" {full_file_path} {project_title}_{file_name[:-4]}_prep-out.maegz -fillsidechains -disulfides -assign_all_residues -rehtreat -max_states 1 -epik_pH 7.4 -epik_pHt 2.0 -antibody_cdr_scheme Kabat -samplewater -propka_pH 7.4 -f S-OPLS -rmsd 0.3 -watdist 5.0 -JOBNAME {project_title}_{file_name[:-4]}_prep -HOST localhost:{processor_to_use}
@@ -39,10 +45,14 @@ if __name__ == "__main__":
     project_title = sys.argv[1]
     file_path = sys.argv[2]
 
-    full_file_path = os.path.join(file_path, project_title, '03_emref')
+    pattern = os.path.join(file_path, project_title, '*_emref')
+    matching_dirs = glob.glob(pattern)
+    if matching_dirs:
+        full_file_path = matching_dirs[0]
+
     for i in range(1,101):
         if find_file_in_directory(file_path,f"{project_title}_emref_{i}_prep-out.maegz"):
             continue
-        protein_preparation(project_title,{full_file_path},f"emref_{i}.pdb" ,20)
+        protein_preparation(project_title,full_file_path,f"emref_{i}.pdb" ,20)
         time.sleep(18)
     

@@ -1,7 +1,7 @@
 '''
 prime mmgbsa 를 수행하는 프로그램
 template >python3 prime_mmgbsa.py file_path project_title processor_to_use
-예시 > python3 prime_mmgbsa.py ./ sw_HER2_Nb51_docking 20
+예시 > python3 prime_mmgbsa.py ./ sw_HER2_Nb51_docking
 '''
 
 import sys
@@ -32,7 +32,7 @@ $SCHRODINGER/prime_mmgbsa  {full_file_path} -csv_output=yes -ligand="chain. A" -
 
 def find_file_in_directory(directory, filename):
     # 모든 파일 iterate
-    for root, dirs, files i    Nb_chain = sys.argv[4]n os.walk(directory):
+    for root, dirs, files in os.walk(directory):
         if filename in files:
             return os.path.join(root, filename)
     return None

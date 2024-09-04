@@ -1,6 +1,6 @@
 import os
 import subprocess
-
+import sys
 def haddock_docker_docking(prepared_antibody_pdb_file, prepared_antigen_pdb_file,project_title):
     try:
         docker_image = "haddock3"
@@ -66,3 +66,10 @@ haddock3 {project_title}.cfg
     finally:
     #다 끝나면 컨테이너 제거
         subprocess.run(["docker", "rm", project_title], check=True)
+
+if __name__ == "__main__":
+    prepared_antibody_pdb_file = sys.argv[1]
+    prepared_antigen_pdb_file = sys.argv[2]
+    project_title = sys.argv[3]
+
+    haddock_docker_docking(prepared_antibody_pdb_file, prepared_antigen_pdb_file, project_title)
