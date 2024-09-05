@@ -5,17 +5,16 @@
 import subprocess
 import os
 import time
-import sys
+
 
 def controller():
-    processes = []
 
     sampling = 50
 
-    domain_splits = [1,41,81,121,161]
+    domain_splits = [1,51,101,151]
 
     for domain in domain_splits:
-        antigen_pass = list(range(domain, domain +40))
+        antigen_pass = list(range(domain, domain +50))
         antigen_pass = ",".join(map(str,antigen_pass))
 
         

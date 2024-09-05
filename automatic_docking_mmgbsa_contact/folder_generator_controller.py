@@ -6,7 +6,7 @@ customizing 해서 folder_generator을 사용하면 된다.
 from folder_generator import folder_generator
 
 
-domain_splits = [1,41,81,121,161]
+domain_splits = [1,51,101,151]
 
 for domain in domain_splits:
 
