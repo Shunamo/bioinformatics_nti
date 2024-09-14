@@ -1,13 +1,18 @@
+'''
+contact 파일을 토대로 contact결과를 정리하는 함수
+
+template> python3 mmgbsa_score_collector.py project_title number_of_files
+'''
+
 import pandas as pd
 import os
 import csv
 import sys
-def contact_count(project_title):
-    f = open(f"{project_title}_collected_contact_count.csv",'w')
+def contact_count(project_title,number_of_files):
 
-    with open(f"{project_title}_collected_contact_count.csv",'a',newline='') as f:
+    with open(f"{project_title}_collected_contact_count.csv",'w',newline='') as f:
 
-        for i in range(1, 101):
+        for i in range(1, number_of_files+1):
             for filename in os.listdir("./"):
                 if filename == f"{project_title}_emref_{i}_prep-out_contact.csv":
                     file_path = os.path.join("./", filename)
@@ -19,6 +24,7 @@ def contact_count(project_title):
 
 
 if __name__ == "__main__":
-    #python3 mmgbsa_score_collector.py project_title
+    
     project_title = sys.argv[1]
-    contact_count(project_title)
+    number_of_files = sys.argv[2]
+    contact_count(project_title,int(number_of_files))

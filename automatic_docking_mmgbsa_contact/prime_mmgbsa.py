@@ -1,19 +1,21 @@
+'''
+prime mmgbsa 를 수행하는 프로그램
+template >python3 prime_mmgbsa.py file_path project_title processor_to_use
+예시 > python3 prime_mmgbsa.py ./ sw_HER2_Nb51_docking
+'''
+
 import sys
 sys.path.append("../")
 import subprocess
 import time
 import os
 
-Nb_chain = 'B'
-
-directory = "./"
-
 def prime_mmgbsa(file_path, file_name, processor_to_use):
-    
+    full_file_path = os.path.join(file_path, file_name)
     script_content = f"""#!/bin/bash
-$SCHRODINGER/prime_mmgbsa  {file_path}{file_name} -csv_output=yes -ligand="chain. {Nb_chain}" -jobname={file_name[:-6]}_prime_mmgbsa -job_type=ENERGY -HOST=localhost:{processor_to_use}
+$SCHRODINGER/prime_mmgbsa  {full_file_path} -csv_output=yes -ligand="chain. A" -jobname={file_name[:-6]}_prime_mmgbsa -job_type=ENERGY -HOST=localhost:{processor_to_use}
 """
-
+    
     script_filename = "mmgbsa_script.sh"
 
     with open(script_filename, 'w') as sh_file:
@@ -36,14 +38,23 @@ def find_file_in_directory(directory, filename):
     return None
 
 if __name__ == "__main__":
-    #python3 prime_mmgbsa.py file_path project_title
-    
+
     file_path = sys.argv[1]
     project_title = sys.argv[2]
-
-    for i in range(1,101):
+    processor_to_use = sys.argv[3]
+    
+    for i in range(1,51):
         if find_file_in_directory(file_path,f"{project_title}_emref_{i}_prep-out_prime_mmgbsa-out.csv"):
             continue
         prime_mmgbsa(file_path,f'{project_title}_emref_{i}_prep-out.maegz',20)
-        time.sleep(200)
+        find_count = 0
+        while True:
+            if find_count == 30: break
+            if find_file_in_directory(file_path,f"{project_title}_emref_{i}_prep-out_prime_mmgbsa-out.csv"):
+                break
+            else:
+                find_count +=1
+                time.sleep(10)
+        
+        
     

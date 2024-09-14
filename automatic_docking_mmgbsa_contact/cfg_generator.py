@@ -1,7 +1,11 @@
-def cfg_generator(project_title, prepared_antibody_pdb_file, prepared_antigen_pdb_file):
+'''
+haddock docking에 필요한 .cfg파일을 만들어내는 프로그램
+'''
+import sys
+def cfg_generator(project_title, prepared_antibody_pdb_file, prepared_antigen_pdb_file,sampling):
     content=f"""run_dir = "{project_title}"
 mode = "local"
-ncores = "40"
+ncores = 40
 
 molecules = [
     "{prepared_antibody_pdb_file}",
@@ -9,22 +13,11 @@ molecules = [
     ]
 
 [topoaa]
-autohis = false
-[topoaa.mol1]
-nhisd = 0
-nhise = 1
-hise_1 = 75
-
-[topoaa.mol2]
-nhisd = 1
-hisd_1 = 76
-nhise = 1
-hise_1 = 15
 
 [rigidbody]
 tolerance = 20
 ambig_fname = "ambig.tbl"
-sampling = 100
+sampling = {sampling}
 
 [flexref]
 tolerance = 20
@@ -34,10 +27,36 @@ ambig_fname = "ambig.tbl"
 tolerance = 20
 ambig_fname = "ambig.tbl"
 
+[caprieval]
+
 [clustfcc]
-threshold = 1
+
+
+[contactmap]
+
+[alascan]
+output = True
+
+[emscoring]
+
+[mdref]
+tolerance = 20
+ambig_fname = "ambig.tbl"
+
+[caprieval]
+
+[mdscoring]
+
 """
     cfg_file_name = f"./{project_title}.cfg"
 
     with open(cfg_file_name, 'w') as cfg_file_name:
         cfg_file_name.write(content)
+
+if __name__ == "__main__":
+    project_title = sys.argv[1]
+    prepared_antibody_pdb_file = sys.argv[2]
+    prepared_antigen_pdb_file = sys.argv[3]
+    sampling = sys.argv[4]
+
+    cfg_generator(project_title, prepared_antibody_pdb_file,prepared_antigen_pdb_file,sampling)

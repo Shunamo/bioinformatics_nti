@@ -1,3 +1,9 @@
+'''
+./antibody.act-pass와 ./antigen.act-pass 파일을 만들어내는 프로그램
+(위 파일들은 추후 ambig.tbl의 재료가 된다. 해당 스크립트는 haddock_docker_docking에 작성되어 있다.)
+'''
+
+import sys
 
 def tbl_generator(antibody_active_residues, antibody_passive_residues,antigen_active_residues,antigen_passive_residues):
 
@@ -25,3 +31,12 @@ def tbl_generator(antibody_active_residues, antibody_passive_residues,antigen_ac
 
     with open(antigen_act_pass_filename, 'w') as antigen_act_pass_filename:
         antigen_act_pass_filename.write(antigen_content)
+
+if __name__ == "__main__":
+    antibody_active_residues = sys.argv[1]
+    antibody_passive_residues = sys.argv[2]
+    antigen_active_residues = sys.argv[3]
+    antigen_passive_residues = sys.argv[4]
+
+    tbl_generator(antibody_active_residues,antibody_passive_residues,antigen_active_residues,antigen_passive_residues)
+    
